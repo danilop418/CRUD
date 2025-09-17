@@ -1,5 +1,8 @@
 package org.example.dao;
 
+import org.example.dao.exceptions.InvalidId;
+import org.example.dao.exceptions.NoValidExpedient;
+import org.example.dao.exceptions.NoValidName;
 import org.example.models.Student;
 import org.junit.jupiter.api.*;
 
@@ -33,7 +36,15 @@ class InsertTest {
     @Test
     void testInsertNormalStudent() {
         Student student = new Student(900, "Test Normal", "EXP1");
-        insert.insertStudent(student);
+        try {
+            insert.insertStudent(student);
+        } catch (NoValidName e) {
+            System.out.println(e.getMessage());
+        } catch (InvalidId e) {
+            System.out.println(e.getMessage());
+        } catch (NoValidExpedient e) {
+            System.out.println(e.getMessage());
+        }
 
         assertTrue(studentExists(900), "The student should have been inserted");
     }
@@ -42,7 +53,7 @@ class InsertTest {
     void testInsertWithEmptyName() {
         Student student = new Student(901, "", "EXP2");
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+        NoValidName thrown = assertThrows(NoValidName.class, () -> {
             insert.insertStudent(student);
         });
 
@@ -54,8 +65,16 @@ class InsertTest {
         Student student1 = new Student(902, "First", "EXP3");
         Student student2 = new Student(902, "Duplicate", "EXP4");
 
-        insert.insertStudent(student1);
-        insert.insertStudent(student2);
+        try {
+            insert.insertStudent(student1);
+            insert.insertStudent(student2);
+        } catch (NoValidName e) {
+            System.out.println(e.getMessage());
+        } catch (InvalidId e) {
+            System.out.println(e.getMessage());
+        } catch (NoValidExpedient e) {
+            System.out.println(e.getMessage());
+        }
 
         assertEquals(1, countStudentsById(902), "Only one student with that ID should exist.");
     }
@@ -63,9 +82,9 @@ class InsertTest {
     @Test
     void testInsertWithLongExpedient() {
         String longExp = "12345678901234567890";
-        Student student = new Student(903, "LongExp", longExp);
+        Student student = new Student(9034, "LongExp", longExp);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+        NoValidExpedient thrown = assertThrows(NoValidExpedient.class, () -> {
             insert.insertStudent(student);
         });
 
