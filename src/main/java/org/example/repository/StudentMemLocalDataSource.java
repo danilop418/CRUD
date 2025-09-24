@@ -17,17 +17,7 @@ public class StudentMemLocalDataSource implements StudentRepository {
 
     @Override
     public List<Student> allStudents() {
-
-        for (Student stu : allStudents.values()) {
-            int id = stu.getId();
-            String name = stu.getName();
-
-            for (String key : allStudents.keySet()) {
-                Student newStu = new Student(id, name, key);
-                listStudent.add(newStu);
-            }
-        }
-        return listStudent;
+        return new ArrayList<>(allStudents.values());
     }
 
     @Override
