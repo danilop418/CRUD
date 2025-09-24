@@ -8,15 +8,14 @@ import org.example.dao.exceptions.InvalidId;
 import org.example.dao.exceptions.NoValidExpedient;
 import org.example.dao.exceptions.NoValidName;
 import org.example.models.Student;
+import org.example.repository.StudentMemLocalDataSource;
+import org.example.repository.StudentRepository;
 
 import java.util.Scanner;
 
 public class Ui {
     static void main(String[] args) {
-        Insert insert = new Insert();
-        Update update = new Update();
-        Delete delete = new Delete();
-        Select select = new Select();
+
         Scanner sc = new Scanner(System.in);
 
         int option;
